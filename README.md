@@ -1,2 +1,3 @@
 # advent-of-code
-Teaching myself C++ 
+
+https://adventofcode.com/
