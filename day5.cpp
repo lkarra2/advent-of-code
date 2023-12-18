@@ -7,43 +7,38 @@
 
 namespace Day5 {
     std::string input = "day5_input.txt";
-
-    std::vector<int> seeds;
+    std::vector<uint64_t> seeds;
 
     struct Instruction {
-        int src;
-        int dest;
-        int range;
+        uint64_t src;
+        uint64_t dest;
+        uint64_t range;
     };
 
     using Instructions = std::vector<Instruction>;
     std::vector<Instructions> data;
-    std::priority_queue<int, std::vector<int>, std::greater<int>>
+    std::priority_queue<uint64_t, std::vector<uint64_t>, std::greater<uint64_t>>
         locations;
-
-    void skip(std::istream &stream, char delim)
-    {
-        stream.ignore(std::numeric_limits<std::streamsize>::max(), delim);
-    }
 
     void ReadData()
     {
         std::string line;
         std::ifstream file(input);
-        int num;
-
-        std::cout << "\nInside ReadData";
+        uint64_t num;
+        uint64_t length;
 
         if(std::getline(file, line))
         {
-            std::cout << "\nSeeds: ";
+            // std::cout << "\nSeeds: ";
             std::stringstream ss(line);
-            std::string seeds;
-            ss >> seeds;
-            while(ss >> num)
+            std::string seeds_string;
+            ss >> seeds_string;
+            while(ss >> num >> length)
             {
-                seeds.push_back(num);
-                std::cout << num << " ";
+                for(uint64_t i = num; i < num+length; i++)
+                {
+                    seeds.push_back(num);
+                }
             }
             std::getline(file, line); 
         }
@@ -60,14 +55,13 @@ namespace Day5 {
             }
             data.push_back(std::move(instructions));
         }
-
     }
 
 
     void PartA()
     {
         ReadData();
-        int num;
+        uint64_t num;
         for(const auto &seed: seeds)
         {
             num = seed;
@@ -82,21 +76,15 @@ namespace Day5 {
                     }
                 }
             }
+            std::cout << "\nLocation: " << num;
             locations.push(num);
         }
         std::cout << "Closest location: " << locations.top() << "\n";
     }
 
-    void PartB()
-    {
-
-    }
-
     extern void Run() 
     {
         std::cout << "Result Part A: ";
-        PartA();
-        std::cout << "\nResult Part B: ";
-        PartB(); 
+        PartA(); 
     }
 }
